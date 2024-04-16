@@ -52,6 +52,7 @@ bodyparts = ['nose', 'eyeL', 'eyeR', 'earL', 'earR', 'shL', 'shR', 'elbowL', 'el
              'wristL', 'wristR', 'hipL', 'hipR', 'kneeL', 'kneeR', 'ankleL', 'ankleR']
 # Output settings (True to output, False to skip)
 plot_frame = False
+framenum = 100
 plot_3d = True
 plot_front = True
 plot_top = True
@@ -168,23 +169,6 @@ if do_triangulate:
         ['shR', 'elbowR', 'wristR'],
         ['hipL', 'kneeL', 'ankleL'],
         ['hipR', 'kneeR', 'ankleR']]
-    """
-    # Delete outliers
-    x_quantile = np.nanquantile(np.absolute(p3ds[:, :, 0]), [0.75])
-    y_quantile = np.nanquantile(np.absolute(p3ds[:, :, 1]), [0.75])
-    z_quantile = np.nanquantile(np.absolute(p3ds[:, :, 2]), [0.75])
-
-    print(x_quantile, '\n', y_quantile, '\n', z_quantile, '\n')
-    
-    for i in range(n_points):
-        for j in range(n_joints):
-            if np.absolute(p3ds[i, j, 0]) >= x_quantile[0]*2:
-                p3ds[i, j, 0] = np.nan
-            if np.absolute(p3ds[i, j, 1]) >= y_quantile[0]*2:
-                p3ds[i, j, 1] = np.nan
-            if np.absolute(p3ds[i, j, 2]) >= z_quantile[0]*2:
-                p3ds[i, j, 2] = np.nan
-    """
     # Flip x values because Aniposelib mirrors the output
     p3ds[:, :, 0] = -p3ds[:, :, 0]
     # Mask coordinates to hide nan values
@@ -192,11 +176,8 @@ if do_triangulate:
     y_masked = np.ma.masked_invalid(p3ds[:, :, 1])
     z_masked = np.ma.masked_invalid(p3ds[:, :, 2])
     
-    print(x_masked, '\n', y_masked, '\n', z_masked, '\n')
-    
     if plot_frame:
         # Plot one frame
-        frame_num = 100
         p3d = p3ds[frame_num]
         fig = plt.figure(figsize=(10, 12), constrained_layout=True)
         ax1 = fig.add_subplot(2, 2, 1, projection='3d')
