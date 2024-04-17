@@ -53,11 +53,11 @@ bodyparts = ['nose', 'eyeL', 'eyeR', 'earL', 'earR', 'shL', 'shR', 'elbowL', 'el
              'wristL', 'wristR', 'hipL', 'hipR', 'kneeL', 'kneeR', 'ankleL', 'ankleR']
 # Output settings (True to output, False to skip)
 plot_frame = False
-framenum = 100
+frame_num = 100
 plot_3d = True
-plot_front = False
-plot_top = False
-plot_side = False
+plot_front = True
+plot_top = True
+plot_side = True
 output_file = 'C:/Users/andre/OneDrive/Desktop/yolo1.mp4'
 #---------------End of variables that the user should edit----------------#
 
@@ -107,8 +107,7 @@ if do_triangulate:
         cam_frames[i] = count
 
     # Use minimum number of frames so frames do not have to be fabricated for shorter videos
-    #frame_cnt = int(np.min(cam_frames))
-    frame_cnt = 30
+    frame_cnt = int(np.min(cam_frames))
     # 2D point data in the format of [cams[frames[bodyparts[point]]]]
     points = np.zeros((n_cams, frame_cnt, n_bodyparts, 2))
     # Confidence score data for each point in the format of [cams[frames[score of each bodypart]]]
