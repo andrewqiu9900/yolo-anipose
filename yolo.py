@@ -14,7 +14,7 @@ from matplotlib.animation import FuncAnimation
 time_total1 = time.time()
 #-------------------Variables that the user should edit-------------------#
 # Runs Yolov8 pose analysis on 'vids'
-do_yolo = True
+do_yolo = False
 # Calibrates cameras using 'calib_vids'. Saves a 'calibration_file' as a .toml file
 do_calibrate = False
 # Uses calibrated cameras from 'calibration_file' to triangulate 'vids' using 'yolo_labels'
@@ -32,19 +32,20 @@ calib_vids=[['C:/Users/andre/OneDrive/Desktop/calib1A.mp4'],
 # defined as the number of internal verticies, not the number of squares: length, height
 board = Checkerboard(8, 6, square_length=25)
 # Location of Yolo labels folder (best to include full path)
-yolo_labels = ['C:/Users/andre/source/repos/yolo/p1/predict5/labels/',
-               'C:/Users/andre/source/repos/yolo/p2/predict5/labels/']
+yolo_labels = ['C:/Users/andre/source/repos/yolo/p1/predict4/labels/',
+               'C:/Users/andre/source/repos/yolo/p2/predict4/labels/']
 # Videos to be triangulated (do not include extension in 'vids'). It is important that all videos
 # start at the same time (within a few frames). The length of the triangulation will be the length of
 # the shortest video
-vids = ['demo1A', 'demo1B']
-vid_path = ['C:/Users/andre/OneDrive/Desktop/demo1A.mp4',
-            'C:/Users/andre/OneDrive/Desktop/demo1B.mp4']
+vids = ['yolo1A', 'yolo1B']
+vid_path = ['C:/Users/andre/OneDrive/Desktop/yolo1A.mp4',
+            'C:/Users/andre/OneDrive/Desktop/yolo1B.mp4']
 # Camera Names
 cam_names = ['A', 'B']
 # Camera Properties
 pixel_width = 640
 pixel_height = 480
+fps = 15
 fisheye_lens = False
 # Bodypart settings (must match Yolo output order)
 n_bodyparts = 17
@@ -54,10 +55,10 @@ bodyparts = ['nose', 'eyeL', 'eyeR', 'earL', 'earR', 'shL', 'shR', 'elbowL', 'el
 plot_frame = False
 framenum = 100
 plot_3d = True
-plot_front = True
-plot_top = True
-plot_side = True
-output_file = 'C:/Users/andre/OneDrive/Desktop/final_test.mp4'
+plot_front = False
+plot_top = False
+plot_side = False
+output_file = 'C:/Users/andre/OneDrive/Desktop/yolo1.mp4'
 #---------------End of variables that the user should edit----------------#
 
 # Number of cameras
@@ -102,11 +103,12 @@ if do_triangulate:
                 count += 1
         
         # Prints file count for each video
-        print('Cam', cam_names[i], 'frame count: ', count, '\n')
+        print('Cam', cam_names[i], 'frame count: ', count)
         cam_frames[i] = count
 
     # Use minimum number of frames so frames do not have to be fabricated for shorter videos
-    frame_cnt = int(np.min(cam_frames))
+    #frame_cnt = int(np.min(cam_frames))
+    frame_cnt = 30
     # 2D point data in the format of [cams[frames[bodyparts[point]]]]
     points = np.zeros((n_cams, frame_cnt, n_bodyparts, 2))
     # Confidence score data for each point in the format of [cams[frames[score of each bodypart]]]
@@ -253,6 +255,8 @@ if do_triangulate:
     def animate(i):
         p3d = p3ds[i]
 
+        print(i, '/', frame_cnt)
+
         # Upper diagonal view
         if plot_3d:
             ax1.clear()
@@ -320,7 +324,7 @@ if do_triangulate:
     # Animate frames
     ani = FuncAnimation(fig, animate, frames=frame_cnt, interval=1, repeat=False)
     # Save animation as .mp4
-    ani.save(output_file, fps=15)
+    ani.save(output_file, fps=fps)
     time_tri2 = time.time()
     time_total2 = time.time()
     
