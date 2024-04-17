@@ -21,6 +21,7 @@ results.\
 `cam_names` : Names of the cameras.\
 `pixel_width` : Width of the videos in `calib_vids` and `vids` measured in pixels.\
 `pixel_height` : Height of the videos in `calib_vids` and `vids` measured in pixels.\
+`fps` : Frames per second of the videos in `calib_vids` and `vids`.\
 `fisheye_lens` : If `True`, the calibration will be done assuming the videos in `calib_vids` are taken with a fisheye lens.\
 `n_bodyparts` : Number of bodyparts that are tracked (Yolov8 pose estimation tracks 17 bodyparts).\
 `bodyparts` : List of bodypart names. This list must be in the order that is output from Yolov8 pose estimation.\
