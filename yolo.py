@@ -55,10 +55,10 @@ bodyparts = ['nose', 'eyeL', 'eyeR', 'earL', 'earR', 'shL', 'shR', 'elbowL', 'el
 plot_frame = False
 frame_num = 100
 plot_3d = True
-plot_front = True
-plot_top = True
-plot_side = True
-output_file = 'C:/Users/andre/OneDrive/Desktop/yolo1.mp4'
+plot_front = False
+plot_top = False
+plot_side = False
+output_file = 'C:/Users/andre/OneDrive/Desktop/new_env.mp4'
 #---------------End of variables that the user should edit----------------#
 
 # Number of cameras
@@ -320,10 +320,11 @@ if do_triangulate:
             for x,y,z,a in zip(x_masked[i], y_masked[i], z_masked[i], bodyparts):
                 ax4.text(x, y, z, a)
     
-    # Animate frames
-    ani = FuncAnimation(fig, animate, frames=frame_cnt, interval=1, repeat=False)
-    # Save animation as .mp4
-    ani.save(output_file, fps=fps)
+    if plot_3d or plot_front or plot_top or plot_side:
+        # Animate frames
+        ani = FuncAnimation(fig, animate, frames=frame_cnt, interval=1, repeat=False)
+        # Save animation as .mp4
+        ani.save(output_file, fps=fps)
     time_tri2 = time.time()
     time_total2 = time.time()
     
