@@ -1,6 +1,10 @@
 # Yolo-Anipose Code
 This code is meant to allow users to analyze videos with Yolov8 pose estimation and triangulate the results with Aniposelib.
 
+## How to make environment
+This code was written using Python 3.8.19, but it should work for any newer Python version.\
+Create a new virtual environment and `pip install` `ultralytics` and `aniposelib`. Also do `conda install ffmpeg`.
+
 ## Improvements to be made
 This code will not work if any frame in the video contains 0 people. It will only triangulate up until the frame when 0 people are present.
 
